@@ -1,0 +1,204 @@
+{% extends 'shared/_MainLayout.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="body p-5 mt-3">
+  <div class="text-center">
+    <div class="detial">
+      <div class="title_bar fw-bold fs-2 sub-bg text-white">
+        مجموعه آمار مالی
+      </div>
+      <div class="search_filter main-bg p-4">
+        <form action="" name="listSearchform" method="get">
+          {% csrf_token %}
+          <div class="row m-0">
+            
+            <div class="col-lg-3 col-md-3 col-12">
+              <select class="form-select" id="emailBy" name="money_txt" aria-label="Default select example">
+                {% for item in money %}
+                <option value="{{item.id}}">{{item.money_type}} </option>
+                {% endfor %}
+              </select>
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-12">
+              <button type="submit" class="btn btn-info sub-bg text-light w-100"><i class="fa fa-search px-2"
+                  aria-hidden="true"></i>
+                جستجو</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+    </div>
+    <div class="detial mt-5">
+
+      <div class="search_filter p-4" style="background-color: aquamarine;">
+        <div class="row m-0">
+          <div class="col-3 mt-2 fw-bold">عنوان</div>
+          <div class="col-6 mt-2">
+            <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>فیصدی
+              کلی</p>
+          </div>
+          <div class="col-3 mt-2">
+            <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>مجموعه پول</p>
+          </div>
+          
+          <div class="col-3 mt-2">
+            <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>مجموعه پول اصلی</p>
+          </div>
+          <div class="col-6 mt-2">
+            <div class=' bg-light  mt-2 text-center' style="width: 100%; border-radius:10px">
+              <div class=' bg-warning py-1 mt-2 text-center' style="width: {{perCuNeedpayed}}%; border-radius:10px">{{perCuNeedpayed}}%</div>
+            </div>
+          </div>
+          <div class="col-3 mt-2">
+            <div class='text-dark py-1 mt-2 text-center border border-warning' style="width: 100%; border-radius:10px">
+              {{TotalCuneedpayed}} ({{mymoney}})</div>
+          </div>
+
+          <div class="col-3 mt-2">
+            <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>مجموعه مصارف کلی دفتر</p>
+          </div>
+          <div class="col-6 mt-2">
+            <div class=' bg-light  mt-2 text-center' style="width: 100%; border-radius:10px">
+              <div class=' bg-warning py-1 mt-2 text-center' style="width: {{perOffNeedpayed}}%; border-radius:10px">{{perOffNeedpayed}}%</div>
+            </div>
+          </div>
+          <div class="col-3 mt-2">
+            <div class='text-dark py-1 mt-2 text-center border border-warning' style="width: 100%; border-radius:10px">
+              {{TotalOFFneedpayed}} ({{mymoney}})</div>
+          </div>
+        
+          <div class="col-3 mt-2">
+            <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>مجموعه دریافتی از مشتری</p>
+          </div>
+          <div class="col-6 mt-2">
+            <div class=' bg-light  mt-2 text-center' style="width: 100%; border-radius:10px">
+              <div class=' bg-success py-1 mt-2 text-center' style="width: {{perCupayed}}%; border-radius:10px">{{perCupayed}}%</div>
+            </div>
+          </div>
+          <div class="col-3 mt-2">
+            <div class='text-dark py-1 mt-2 text-center border border-warning' style="width: 100%; border-radius:10px">
+              {{TotalCupayed}} ({{mymoney}})</div>
+          </div>
+        
+          
+          <div class="col-3 mt-2">
+            <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>مجموعه مفاد </p>
+          </div>
+          <div class="col-6 mt-2">
+            <div class=' bg-light  mt-2 text-center' style="width: 100%; border-radius:10px">
+              <div class=' bg-primary py-1 mt-2 text-center' style="width: {{perMafad}}%; border-radius:10px">{{perMafad}}%</div>
+            </div>
+          </div>
+          <div class="col-3 mt-2">
+            <div class='text-dark py-1 mt-2 text-center border border-warning' style="width: 100%; border-radius:10px">
+              {{TotalMafad}} ({{mymoney}})</div>
+          </div>
+        
+        </div>
+        </form>
+      </div>
+      <div class="row m-0 bg-light mt-3 ">
+        <div class="col-3 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">عنوان</div>
+        <div class="col-7 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">فیصدی</div>
+        <div class="col-2 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">مقدار</div>
+
+        <div class="row m-0 p-0">
+          <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;"> مجموعه کلی پول ویزا</div>
+
+          <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+            <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+              <div class="m-0 bg-warning" style="width: {{perCuNeedpayed}}%; border-raduis:5px;">{{perVprice}}%
+              </div>
+            </div>
+          </div>
+          <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{Vtotalprice}}</div>
+        </div>
+
+        <div class="row m-0 p-0">
+          <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه پول دریافتی از ویزا</div>
+
+          <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+            <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+              <div class="m-0 bg-success" style="width: {{perVpayed}}%; border-raduis:5px;">{{perVpayed}}%
+              </div>
+            </div>
+          </div>
+          <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{Vtotalpayed}}</div>
+        </div>
+        <div class="row m-0 p-0">
+          <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه پول پرداختی برای ویزا</div>
+
+          <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+            <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+              <div class="m-0 bg-danger" style="width: {{perVmainprice}}%; border-raduis:5px;">
+                {{perVmainprice}}%</div>
+            </div>
+          </div>
+          <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{Vtotalmainprice}}</div>
+        </div>
+
+
+
+        <div class="row m-0 p-0">
+          <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه کلی بل های ثبت شده
+          </div>
+
+          <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+            <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+              <div class="m-0 bg-warning" style="width: {{perbillprice}}%; border-raduis:5px;">
+                {{perbillprice}}%</div>
+            </div>
+          </div>
+          <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{totalbillprice}}</div>
+        </div>
+
+
+        <div class="row m-0 p-0">
+          <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه پول دریافتی بل های ثبت شده
+          </div>
+
+          <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+            <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+              <div class="m-0 bg-success" style="width: {{perbillpay}}%; border-raduis:5px;">{{perbillpay}}%</div>
+            </div>
+          </div>
+          <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{totalbillpay}}</div>
+        </div>
+
+
+        <div class="row m-0 p-0">
+          <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه پول پرداختی برای بل های ثبت شده
+          </div>
+
+          <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+            <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+              <div class="m-0 bg-danger" style="width: {{perbillmainprice}}%; border-raduis:5px;">
+                {{perbillmainprice}}%</div>
+            </div>
+          </div>
+          <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{totalbillmainprice}}</div>
+        </div>
+        
+        <div class="row m-0 p-0">
+          <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه مصارف دفتر</div>
+
+          <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+            <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+              <div class="m-0 bg-danger" style="width: {{peroffpayment}}%; border-raduis:5px;">
+                {{peroffpayment}}%</div>
+            </div>
+          </div>
+          <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{totaloffpayment}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

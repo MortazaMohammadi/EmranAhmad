@@ -1,0 +1,68 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5">
+    <div class="text-center">
+        <div class="detial">
+            <div class="list sub-bg" id="list">
+                <div class="title_bar fw-bold fs-2 mt-5 text-light text-center">
+                    لیست بل ها برای راجستر ویزا
+                </div>
+                <table class="table table-light fw-bold">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col"> نام</th>
+                            <th scope="col"> عنوان</th>
+                            <th scope="col">نمبر پاسپورت </th>
+                            <th scope="col">ارسال برای ثبت</th>
+                            <th scope="col">حذف</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for items in records%}
+                        <tr>
+                            <th scope="row">{{ items.id }}</th>
+                            <td>{{ items.customer.name }} {{items.customer.lastname}}</td>
+
+                            <td>{{ items.bill.visatype.country }} {{items.bill.visatype.type}}</td>
+                            
+                            <td> {{items.customer.passport}}</td>
+                            <td> <a href="/visaRegister/{{items.id}}" class="btn btn-success w-100">ثبت ویزا</a></td>
+                            <td> <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                                    data-bs-target="#confirmationModal-{{ items.id }}">
+                                    حذف
+                                </button></td>
+                        </tr>
+                        <!-- Confirmation Modal -->
+                        <div class="modal fade" id="confirmationModal-{{ items.id }}" tabindex="-1"
+                            aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmationModalLabel">تأیید تکمیل</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="بستن"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        آیا مطمئن هستید که میخواهید این ورودی را تکمیل کنید؟
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">انصراف</button>
+                                        <a href="/deleteBill/{{items.bill.id}}" class="btn btn-danger">تأیید حذف</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of Confirmation Modal -->
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

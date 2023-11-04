@@ -1,0 +1,144 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5 mt-3">
+    <div class="text-center">
+        <div class="detial">
+            <div class="title_bar fw-bold fs-2 sub-bg text-white">
+                بل 
+            </div>
+        </div>
+         <form action="#" method="post">
+                {% csrf_token %}
+                <div class="row m-0 text-start">
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-user text-danger px-2" aria-hidden="true"></i>  نام</p>
+                        <input type="text" class="form-control" name="name_txt" required>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5"> 
+                        <p class="text-dark m-1"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>  اسناد دریافتی</p>
+                        <input type="text" class="form-control" name="reciveddoc_txt" value="پاسپورت " required>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>نوعیت ویزا</p>
+                        <select class="form-select" aria-label="Default select example" name="visatype_txt">
+                            {% for item in visaList %}
+                            <option class="" value="{{ item.id }}">{{ item.country }} {{item.type}}</option>
+                            {% endfor %}
+                            {% for item in other %}
+                            <option class="" value="{{ item.title }}">{{ item.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5"> 
+                        <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i>  تعداد اشخاص </p>
+                        <input type="number" class="form-control" name="people_txt" value="1" required>
+                    </div>
+
+                     <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i>  قیمت</p>
+                        <input type="number" class="form-control" name="price_txt" required >
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5"> 
+                        <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i>  پیش پرداخت</p>
+                        <input type="number" class="form-control" name="payed_txt" value="0" required >
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>نوعیت پول</p>
+                        <select class="form-select" aria-label="Default select example" name="money_txt">
+                            {% for item in money %}
+                            <option class="" value="{{ item.id }}">{{ item.money_type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5"> 
+                        <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i>  مدت اعتبار </p>
+                        <input type="number" class="form-control" name="duration_txt" value="0" required>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5"> 
+                        <p class="text-dark m-1"><i class="fa fa-phone text-danger px-2" aria-hidden="true"></i>  شماره تماس  </p>
+                        <input type="number" class="form-control" name="phone_txt" value="{{bill.phone}}" required>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="m-4"></p>
+                        <button type="submit" class="btn btn-info mt-3 w-100 fw-bold" >ذخیره</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="list sub-bg" id="list">
+            <div class="title_bar fw-bold fs-2 mt-5 text-light text-center">
+                لیست بل ها
+            </div>
+              <table class="table table-light fw-bold">
+                <thead >
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"> نام</th>
+                    <th scope="col"> عنوان</th>
+                    <th scope="col">پرنت </th>
+                    <th scope="col">ویرایش </th>
+                    <th scope="col"> ثبت بل</th>
+                    <th scope="col">ثبت ویزا</th>
+                    <th scope="col">حذف</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for items in billListing%}
+                 <tr>
+                    <th scope="row">{{ items.id }}</th>
+                    <td>{{ items.name }}</td>
+                    
+                    {% if items.visatype %}
+                    <td>{{ items.visatype.country }} {{items.visatype.type}}</td>
+                    {% else %}
+                    <td>{{ items.othertype.title }}</td>
+                    {% endif %}
+                        
+                    <td><a href="billprint/{{items.id}}" onclick="printPdf('billprint/{{items.id}}'); return false;" class="btn btn-info w-100">یرنت</a></td>
+                    <td><a href="updateBill/{{items.id}}" class="btn btn-primary w-100">ویرایش</a></td>
+                    <td> <a href="saveBill/{{items.id}}" class="btn btn-success w-100">ثبت بل</a></td>
+                    <td> <a href="sendBill/{{items.id}}" class="btn btn-success w-100">ثبت ویزا</a></td>
+                    <td> <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                        data-bs-target="#confirmationModal-{{ items.id }}">
+                        حذف
+                    </button>
+                    </td>
+                  </tr> 
+                   <!-- Confirmation Modal -->
+                   <div class="modal fade" id="confirmationModal-{{ items.id }}" tabindex="-1"
+                   aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                   <div class="modal-dialog">
+                       <div class="modal-content">
+                           <div class="modal-header">
+                               <h5 class="modal-title" id="confirmationModalLabel">تأیید حذف</h5>
+                               <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                   aria-label="بستن"></button>
+                           </div>
+                           <div class="modal-body">
+                               آیا مطمئن هستید که میخواهید این ورودی را حذف کنید؟
+                           </div>
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary"
+                                   data-bs-dismiss="modal">انصراف</button>
+                               <a href="deleteBill/{{items.id}}" class="btn btn-danger">تأیید حذف</a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <!-- End of Confirmation Modal -->  
+                 {% endfor %}
+                </tbody>
+                
+              </table>
+        </div>
+    </div>
+    
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,93 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5">
+    <div class="text-center">
+        <div class="list sub-bg" id="list">
+            <div class="title_bar fw-bold fs-2 mt-5 text-light text-center">
+                لیست بل ها ثبت شده
+            </div>
+            <div class="search_filter main-bg p-4">
+              <form action="" name="listSearchform" method="post">
+                {% csrf_token %}
+                <div class="row m-0">
+      
+                  <div class="col-lg-3 col-md-3 col-12">
+                    <input type="text" placeholder="نمبر بل، نام یا پاسپورت" name="search_txt"  class="form-control">
+                  </div>  
+                  <div class="col-lg-3 col-md-3 col-12">
+                    <button type="submit" class="btn btn-info sub-bg text-light w-100"><i class="fa fa-search px-2" aria-hidden="true"></i>
+                      جستجو</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+      
+              <table class="table table-light fw-bold">
+                <thead >
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"> نام</th>
+                    <th scope="col"> عنوان</th>
+                    <th scope="col">قیمت</th>
+                    <th scope="col">مقدار پرداخت</th>
+                    <th scope="col">مقدار باقی</th>
+                    <th scope="col">پول</th>
+                    <th scope="col">پرنت </th>
+                    <th scope="col">ویرایش </th>
+                    <th scope="col">حذف</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for items in records%}
+                 <tr>
+                    <th scope="row">{{ items.zero }}</th>
+                    <td>{{ items.one }}</td>
+                    <td>{{ items.two }}</td>
+                    <td scope="col">{{items.three}}</td>
+                    <td scope="col">{{items.four}}</td>
+                    <td scope="col">{{items.five}}</td>                        
+                    <td scope="col">{{items.money}}</td>
+                    <td><a href="billprint/{{items.zero}}" onclick="printPdf('billprint/{{items.zero}}'); return false;" class="btn btn-info w-100">یرنت</a></td>
+                    <td><a href="updateBill/{{items.zero}}" class="btn btn-primary w-100">ویرایش</a></td>
+
+                    <td> <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                        data-bs-target="#confirmationModal-{{ items.zero }}">
+                        حذف
+                    </button>
+                    </td>
+                  </tr> 
+                   <!-- Confirmation Modal -->
+                   <div class="modal fade" id="confirmationModal-{{ items.zero }}" tabindex="-1"
+                   aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                   <div class="modal-dialog">
+                       <div class="modal-content">
+                           <div class="modal-header">
+                               <h5 class="modal-title" id="confirmationModalLabel">تأیید حذف</h5>
+                               <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                   aria-label="بستن"></button>
+                           </div>
+                           <div class="modal-body">
+                               آیا مطمئن هستید که میخواهید این ورودی را حذف کنید؟
+                           </div>
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary"
+                                   data-bs-dismiss="modal">انصراف</button>
+                               <a href="deleteBill/{{items.zero}}" class="btn btn-danger">تأیید حذف</a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <!-- End of Confirmation Modal -->  
+                 {% endfor %}
+                </tbody>
+                
+              </table>
+        </div>
+    </div>
+    
+</div>
+
+
+{% endblock content %}

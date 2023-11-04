@@ -1,0 +1,84 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5 mt-3">
+    <div class="text-center">
+        <div class="detial">
+            <div class="title_bar fw-bold fs-2 sub-bg text-white">
+                ویرایش ویزا
+            </div>
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div id="reg" class="row m-0 shadow mt-2 text-start p-2 p-3">
+                    <div class="row m-0 shadow bg-white-1 pt-5">
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa fa-id-card text-danger px-2"
+                                    aria-hidden="true"></i> نوعیت ویزا</p>
+                            <select class="form-select" id="visaType" name="visaType_txt" aria-label="Default select example">
+                                <option value="{{visa.visaType.id}}">{{visa.visaType.country}} {{visa.visaType.type}} </option>
+                                {% for item in visatype %}
+                                    <option value="{{item.id}}">{{item.country}} {{item.type}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa fa-user text-danger px-2"
+                                    aria-hidden="true"></i>مشتری</p>
+                            <select class="form-select" id="emp" name="customer_txt" aria-label="Default select example" value = '{{ visa.customer }}'>
+                                <option value="{{visa.customer.id}}">{{visa.customer.name}} {{visa.customer.lastname}}</option>
+                                {% for item in customers %}
+                                    <option value="{{item.id}}">{{item.name}} {{item.lastname}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa text-danger px-2 fa-inbox" aria-hidden="true"></i> اسناد دریافت شده</p>
+                            <input type="text" name="recivedDoc_txt" class="form-control" value="{{reciveddoc.Document}}" required>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa fa-paper-plane text-danger px-2" aria-hidden="true"></i> آدرس بلاک</p>
+                            <input type="text" name="blockAddress_txt" class="form-control" value="{{visaPayment.blockAddress}}">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa fa-paperclip text-danger px-2" aria-hidden="true"></i> تصویر سند بلاک</p>
+                            <input type='file' name="block_img" class="form-control" value="{{visaPayment.blockImage}}">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa text-danger px-2 fa-dollar"  aria-hidden="true"></i> مقدار پرداخت</p>
+                            <input type="text" name="payed_txt" class="form-control" value = '{{visaPayment.payed}}' required>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa fa-envelope text-danger px-2" aria-hidden="true"></i> ایمیل ثبت</p>
+                            <select class="form-select" id="emailBy" name="emailBy_txt" aria-label="Default select example">
+                                <option value="{{visa.emailby.id}}">{{visa.emailby.email}} </option>
+                                {% for item in emailby %}
+                                    <option value="{{item.id}}">{{item.email}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa text-danger px-2 fa-dollar" aria-hidden="true"></i> قیمت ویزا</p>
+                            <input type="text" name="price_txt" class="form-control" value = '{{visa.price}}' required>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                            <p class="text-dark m-1"><i class="fa fa-money text-danger px-2" aria-hidden="true"></i> نوعیت پول</p>
+                            <select class="form-select" id="emailBy" name="money_txt" aria-label="Default select example">
+                                <option value="{{visa.money.id}}">{{visa.money.money_type}} </option>
+                                {% for item in money %}
+                                    <option value="{{item.id}}">{{item.money_type}} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-12 p-2 fs-5 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-info w-50 my-5 fw-bold">ذخیره</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

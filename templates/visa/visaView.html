@@ -1,0 +1,171 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5">
+    <div class="text-center">
+        <div class="detial mt-5">
+            <div class="title_bar fw-bold fs-2 sub-bg text-white">
+                معلومات ویزا 
+            </div>
+            <div class="row m-0 mt-3 fs-5">
+                <div class="col-12 row">
+                    <div class="col-lg-2 col-md-3 col-6 mt-4">
+                        <img src="{{visa.customer.profile.url}}" alt="" class="w-100 card">
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-12 px-5">
+                        <table class="table text-start mt-3">
+                            
+                            <tr>
+                                <th class="fs-5 text-danger"> مشخصات مشتری</th>
+                            </tr>
+                            <tr>
+                                <td class=" fw-bold"> نام :</td>
+                                <td>{{visa.customer.name}} {{visa.customer.lastname}}</td>
+                            </tr>
+                            <tr>
+                                <td class=" fw-bold"> آدرس :</td>
+                                <td>{{visa.customer.address}}</td>
+                            </tr>
+                            <tr>
+                                <td class=" fw-bold"> سکونت اصلی :</td>
+                                <td>{{visa.customer.mainstate}}</td>
+                            </tr>
+                            <tr>
+                                <td class=" fw-bold"> سکونت فعلی :</td>
+                                <td>{{visa.customer.currentstate}}</td>
+                            </tr>
+                            
+    
+                        </table>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-12 px-5">
+                        <table class="table text-start mt-5">
+                            
+                            <tr>
+                                <th class="fs-5 text-danger"></th>
+                            </tr>
+                            <tr>
+                                <td class=" fw-bold"> نمبر پاسپورت :</td>
+                                <td>{{visa.customer.passport}}</td>
+                            </tr>
+                            <tr>
+                                <td class=" fw-bold"> شماره تماس :</td>
+                                <td>{{visa.customer.phone}}</td>
+                            </tr>
+                            <tr>
+                                <td class=" fw-bold"> ایمیل :</td>
+                                <td>{{visa.customer.email}}</td>
+                            </tr>
+                            <tr>
+                                <td class=" fw-bold">  معرف :</td>
+                                <td>{{visa.employee}}</td>
+                            </tr>
+    
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 col-md-5 col-sm-12 pt-3">
+                    <table class="table text-start">
+                        <tr>
+                            <th class="fs-5 text-danger"> مشخصات ویزا</th>
+                        </tr>
+                        <tr>
+                            <td class=" fw-bold"> کشور :</td>
+                            <td>{{visa.visaType.country}}</td>
+                        </tr>
+                        <tr>
+                            <td class=" fw-bold"> ویزا :</td>
+                            <td>{{visa.visaType.type}}</td>
+                        </tr>
+                        <tr>
+                            <td class=" fw-bold"> قیمت ویزا :</td>
+                            <td>{{visa.price}}  ({{visa.money.money_type}})</td>
+                        </tr>
+
+                        <tr>
+                            <td class=" fw-bold"> تاریخ ثبت :</td>
+                            <td>{{visa.saveddate}}</td>
+                        </tr>
+                       
+                        <tr>
+                            <td class=" fw-bold"> اسناد دریافتی :</td>
+                            <td>{{visarecived.Document}}</td>
+                        </tr>
+                        <tr>
+                            <td class=" fw-bold">  حالت :</td>
+                            <td>
+                                {% if visa.iscomplate %}
+                                    تکمیل شد
+                                {% elif visa.isapproved %}
+                                    تایید شده
+                                {% elif visa.isrejected %}
+                                    رد شده
+                                {% else %}
+                                    زیر کار
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=" fw-bold">  پیش پرداخت :</td>
+                            <td>{{ visapayment.payed }} ({{visa.money.money_type}}) </td>
+                        </tr>
+                        <tr>
+                            <td class=" fw-bold"> ایمیل ثبت :</td>
+                            <td class="fs-6 text-success">{{ visa.emailby}}</td>
+                        </tr>
+                        <tr>
+                            <td class=" fw-bold"> سند ویزا :</td>
+                            <td>
+                            {% if visa.visapdf %}
+                            <div class="row">
+                                <div class="col">
+                                    <a href="{{ visa.visapdf.url }}" target="_blank" class="nav-link text-danger">باز کردن</a>
+                                </div>
+
+                                <div class="col">
+                                    <a href="{{ visa.visapdf.url }}" download class="nav-link text-danger">دانلود</a> 
+                                </div>
+                                <div class="col">
+                                    <a href="#" onclick="printPdf('{{ visa.visapdf.url }}'); return false;" class="nav-link text-danger">پرنت</a>
+                                </div>
+                            </div>
+                            {% else %}
+                            {% if visa.isrejected == True %}
+                                <p class="text-danger"> ویزا رد شده است</p>
+                            {% else %}
+                                <p class="text-info">وجود ندارد</p>
+                            {% endif %}{% if visa.visapdf %}
+                            <a href="{{visa.visapdf.url}}" class="nav-link text-danger">سند ویزا</a>
+                            {% endif %}
+                            {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class=" fw-bold"> آدرس بلاک :</td>
+                            <td>{{ visapayment.blockAddress }}</td>
+                        </tr>
+                    </table>
+                   
+                   {% if visapayment.blockImage %}
+                    <a href="{{ visapayment.blockImage.url}}" target="_blank">
+                         <img src="{{ visapayment.blockImage.url}}" width="100%" alt="" class="card">
+                    </a>
+                   {% endif %}
+                    
+                </div>
+               
+                <div class="col-lg-7 col-md-6 col-12 pt-5">
+                    {% if visa.customer.cardImage %}
+                    <img src="{{visa.customer.cardImage.url}}" alt="" class="w-100 card m-2">
+                    
+                   {% endif %}
+                    
+                    
+                    <img src="{{visa.customer.passportImage.url}}" alt="" class="w-100 card m-2"> 
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

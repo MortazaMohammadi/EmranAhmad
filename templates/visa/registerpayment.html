@@ -1,0 +1,71 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5">
+    <div class="text-center">
+<div class="detial">
+    <div class="title_bar fw-bold fs-2 sub-bg text-white">
+        تمدید حالت ویزا
+    </div>
+    <form action="" class="mt-0" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div id="reg" class="row m-0 shadow  text-start p-2  p-3 py-5 ">
+            <div class="row m-0 shadow bg-white-1 pt-5">
+                
+                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                    <p class="text-dark m-1"><i class="fa text-danger px-2 fa-dollar" aria-hidden="true"></i> مقدار پرداخت به سفارت</p>
+                    <input type="text" name="payed_txt" class="form-control" value="{{registerPayment.payed}}">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                    <p class="text-dark m-1"><i class="fa text-danger px-2 fa-dollar" aria-hidden="true"></i> مقدار پرداخت مشتری</p>
+                    <input type="text" name="cupayed_txt" class="form-control" value="{{cupay}}" >
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">   
+                    <p class="text-dark m-1"><i class="fa text-danger px-2 fa-pen" aria-hidden="true"></i> سند تاییدی ویزا</p>
+                    <input type="file" name="visapdf_file" class="form-control" value="">
+                   
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                    <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i> نوعیت پول</p>
+                    <p class="fs-5 text-primary ps-4">{{visa.money.money_type}}</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                    <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i>سند ویزا</p>
+                    
+                    {% if visa.visapdf %}
+                    <a href="{{visa.visapdf.url}}" class="nav-link text-danger px-3 fs-5 "  target="_blank">ثبت گردیده است</a>
+                    {% else %}
+                    <p class="fs-5 text-info px-3"> ویزا ثبت نگردیده </p>
+                    {% endif %}
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5"></div>
+                <div class="col-lg-4 col-md-4 col-sm-12 p-2 fs-5">
+                        <input type="checkbox" class="btn-check " id="btncheck1" name="isapproved_txt" autocomplete="off" {{approve}}>
+                        <label class="btn btn-outline-warning text-dark w-100 fw-bold fs-5" for="btncheck1">
+                            ویزا تایید شد
+                        </label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 p-2 fs-5">
+                    <input type="checkbox" class="btn-check " id="btncheck2" name="isrejected_txt" autocomplete="off" {{reject}}>
+                    <label class="btn btn-outline-danger text-dark fs-5 fw-bold w-100" for="btncheck2"> ویزا رد گردید</label>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 p-2 fs-5">
+                    <input type="checkbox" class="btn-check " id="btncheck3" name="iscomplate_txt" autocomplete="off" {{complate}}>
+                    <label class="btn btn-outline-success fw-bold text-dark fs-5 w-100" for="btncheck3">ویزا تکمیل گردید</label>
+                </div>
+                
+                <div class="col-12">
+                    <div class="row m-0 d-flex justify-content-end">
+                        <div class="col-lg-6 col-md-6 col-12 p-2 ">
+                            <button class="btn btn-info sub-bg w-100 my-5 fw-bold">ذخیره</button>
+                        </div>
+                    </div>
+                </div>
+           
+        </div>
+    </form>
+</div>
+    </div>
+</div>
+{% endblock %}

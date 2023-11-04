@@ -1,0 +1,147 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="body p-5 mt-3">
+  <div class="text-center">
+
+    <div class="detial">
+      <div class="title_bar fw-bold fs-2 sub-bg text-white">
+        لیست ویزاها
+      </div>
+      <div class="search_filter main-bg p-4">
+        <form action="" method="get">
+          {% csrf_token %}
+          <div class="row m-0">
+            <div class="col-lg-5 col-md-3 col-12">
+              <input type="text" placeholder="نمبر پاسپورت" name="passport_txt" class="form-control" id="" required>
+            </div>
+            <div class="col-lg-3 col-md-3 col-12">
+              <button type="submit" class="btn btn-info sub-bg text-light w-100"><i class="fa fa-search px-2" aria-hidden="true"></i>
+                جستجو</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row m-0 mt-4">
+        <div class="col-12  border-bottom border-secondary border-3 p-2">
+          <div class="row m-0">
+            <div class="col-lg-1 col-md-1 col-12 fw-bold">
+              نمایه
+            </div>
+            <div class="col-lg-2 col-md-2 col-12 fw-bold">
+              نام مشتری
+            </div>
+            <div class="col-lg-1 col-md-1 col-12 fw-bold">
+              کشور
+            </div>
+            <div class="col-lg-2 col-md-2 col-12 fw-bold">
+              نوع ویزا
+            </div>
+            <div class="col-lg-1 col-md-2 col-12 fw-bold">
+              برسی
+            </div>
+            <div class="col-lg-1 col-md-2 col-12 fw-bold">
+               ویرایش
+            </div>
+            <div class="col-lg-2 col-md-2 col-12 fw-bold">
+              تکمیل
+            </div>
+            <div class="col-lg-1 col-md-1 col-12 fw-bold">
+              حالت
+            </div>
+          </div>
+        </div>
+
+        <div class="row m-0 border-top border secondary" style="max-height: 500px; overflow-y:scroll">
+          {% for item in visalisting %}
+          <div class="col-12 p-2 border-bottom border-secondary">
+            
+            <div class="row m-0">
+              <div class="col-lg-1 col-md-1 col-12 fw-bold">
+                <a href=""> <img src="{{item.customer.profile.url}}" alt="" width="30" height="30"
+                    style="border-radius: 50%;"> </a>
+              </div>
+              <div class="col-lg-2 col-md-2 col-12 ">
+                {{item.customer.name}} {{item.customer.lastname}}
+              </div>
+
+              <div class="col-lg-1 col-md-1 col-12 ">
+                {{item.visaType.country}}
+              </div>
+              
+              <div class="col-lg-2 col-md-2 col-12 ">
+                {{item.visaType.type}}
+              </div>
+
+              <div class="col-lg-1 col-md-1 col-12 px-2">
+                <a href="visaView/{{item.id}}" class=" w-100 p-0 btn btn-info">
+                  برسی
+                </a>
+              </div>
+              <div class="col-lg-1 col-md-1 col-12 px-2">
+                <a href="visaUpdate/{{item.id}}" class="w-100 p-0 btn btn-warning">
+                  ویرایش
+                </a>
+              </div>
+              <div class="col-lg-2 col-md-2 col-12 px-2">
+                <a href="registerPayment/{{item.id}}" class="w-100 p-0 btn btn-dark">
+                  آدامه کار
+                </a>
+                <!-- <button type="button" class="w-100 p-0 btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmationModal-{{ item.id }}">
+                  تکمیل
+                </button> -->
+              </div>
+              <div class="col-lg-1 col-md-1 col-12 d-flex justify-content-center">
+                {% if item.iscomplate == True %}
+                {% if item.isrejected == True %}
+                <div class="bg-danger" style="width: 25px; height:25px;">
+                </div>
+                {% elif item.isapproved == True %}
+                <div class="bg-warning" style="width: 25px; height:25px;">
+                </div>
+                
+                {%endif%}
+                <div class="bg-primary" style="width: 25px; height:25px;">
+                </div>
+                {% elif item.isapproved == True %}
+                <div class="bg-warning" style="width: 25px; height:25px;">
+                </div>
+                {% elif item.isrejected == True %}
+                <div class="bg-danger" style="width: 25px; height:25px;">
+                </div>
+                {%else%}
+                <div class="bg-secondary" style="width: 25px; height:25px;">
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+         
+          <!-- Confirmation Modal -->
+          <div class="modal fade" id="confirmationModal-{{ item.id }}" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="confirmationModalLabel">تأیید تکمیل</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body">
+                  آیا مطمئن هستید که میخواهید این ورودی را تکمیل کنید؟
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                  <a href="visaUpdate/{{item.id}}" class="btn btn-danger">تأیید تکمیل</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End of Confirmation Modal -->
+          {% endfor %}
+        </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </div>
+  </div>
+  {% endblock %}

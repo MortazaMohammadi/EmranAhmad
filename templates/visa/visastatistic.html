@@ -1,0 +1,216 @@
+
+{% extends 'shared/_MainLayout.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="body p-5 mt-3">
+  <div class="text-center">
+    <div class="detial">
+      <div class="title_bar fw-bold fs-2 sub-bg text-white">
+          لیست مالی ویزا
+      </div>
+      <div class="search_filter main-bg p-4">
+        <form action="" name="listSearchform" method="get">
+          {% csrf_token %}
+          <div class="row m-0">
+
+            <div class="col-lg-3 col-md-3 col-12">
+              <select class="form-select" name="vtype_txt"  id="emp" aria-label="Default select example">
+                <option value="0">همه</option>
+                {% for i in vtype %}
+                <option value="{{i.id}}">{{i.country}} {{i.type}}</option>
+                {% endfor %}
+              </select>
+            </div>    
+            <div class="col-lg-3 col-md-3 col-12">
+              <select class="form-select" id="emailBy" name="money_txt" aria-label="Default select example">
+                {% for item in money %}
+                    <option value="{{item.id}}">{{item.money_type}} </option>
+                {% endfor %}
+            </select>
+            </div>  
+            <div class="col-lg-3 col-md-3 col-12">
+              <button type="submit" class="btn btn-info sub-bg text-light w-100"><i class="fa fa-search px-2" aria-hidden="true"></i>
+                جستجو</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="row m-0 mt-4">
+        <div class="col-12  border-bottom border-secondary border-3 p-2">
+          <div class="row m-0">
+            <div class="col-lg-1 col-md-1 col-12 fw-bold">
+              نمایه
+            </div>
+            <div class="col-lg-2 col-md-2 col-12 fw-bold">
+              نام مشتری
+            </div>
+            <div class="col-lg-2 col-md-1 col-12 fw-bold">
+              ویزا
+            </div>
+            <div class="col-lg-2 col-md-2 col-12 fw-bold">
+              قیمت اصلی
+            </div>
+            <div class="col-lg-1 col-md-2 col-12 fw-bold">
+                مشتری پی
+            </div>
+            <div class="col-lg-1 col-md-2 col-12 fw-bold">
+                دفتر پی
+            </div>
+            <div class="col-lg-1 col-md-2 col-12 fw-bold">
+               مفاد  
+            </div>
+            <div class="col-lg-1 col-md-2 col-12 fw-bold">
+               باقی
+             </div>
+          </div>
+        </div>
+
+        <div class="row m-0 border-top border secondary" style="max-height: 500px; overflow-y:scroll">
+          {% for item in records %}
+          <div class="col-12 p-2 border-bottom border-secondary">
+            <div class="row m-0 text-center">
+              <div class="col-lg-1 col-md-1 col-12 fw-bold">
+                <a href=""> <img src="{{item.visa_customer.profile.url}}" alt="" width="30" height="30"
+                    style="border-radius: 50%;"> </a>
+              </div>
+              <div class="col-lg-2 col-md-2 col-12 ">
+                {{ item.visa_customer.name }} {{item.visa_customer.lastname}}
+              </div>
+
+              <div class="col-lg-2 col-md-2 col-12 ">
+                {{item.visa_type.country}} {{item.visa_type.type}}
+              </div>
+              
+              <div class="col-lg-2 col-md-2 col-12 ">
+                {{item.visa_price}}
+              </div>
+              
+              <div class="col-lg-1 col-md-1 col-12 ">
+                {{item.cupay}}
+              </div>
+              <div class="col-lg-1 col-md-1 col-12 ">
+                {{item.ofpay}}
+              </div>
+              <div class="col-lg-1 col-md-1 col-12 ">
+                {{item.mafad}}
+              </div>
+              <div class="col-lg-1 col-md-1 col-12 ">
+                {{item.remain}}
+              </div>
+              <div class="col-lg-1 col-md-1 col-12 ">
+                {{item.money_type}}
+              </div>
+            </div>
+          </div>
+         
+          <!-- Confirmation Modal -->
+          <div class="modal fade" id="confirmationModal-{{ item.id }}" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="confirmationModalLabel">تأیید تکمیل</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+                </div>
+                <div class="modal-body">
+                  آیا مطمئن هستید که میخواهید این ورودی را تکمیل کنید؟
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                  <a href="visaUpdate/{{item.id}}" class="btn btn-danger">تأیید تکمیل</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End of Confirmation Modal -->
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+    <div class="detial mt-5">
+      <div class="title_bar fw-bold fs-2 sub-bg text-white">
+        آمار مالی ویزا
+      </div>
+     
+      <div class="search_filter p-4" style="background-color: aquamarine;">
+          <div class="row m-0">
+           
+            <div class="col-9 mt-2">
+              <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>فیصدی
+                کلی</p>
+            </div>
+            <div class="col-3 mt-2">
+              <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>مجموعه
+                کلی</p>
+              </div>
+            <div class="col-9 mt-2">
+              <div class=' bg-light  mt-2 text-center' style="width: 100%; border-radius:10px">
+                <div class=' bg-warning py-1 mt-2 text-center' style="width: 100%; border-radius:10px">100%</div>
+              </div>
+            </div>
+            <div class="col-3 mt-2">
+              <div class='text-dark py-1 mt-2 text-center border border-warning' style="width: 100%; border-radius:10px">{{total_price}} {{money.money_type}}</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row m-0 bg-light mt-3 ">
+        <div class="col-3 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">عنوان</div>
+        <div class="col-7 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">فیصدی</div>
+        <div class="col-2 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">مقدار</div>
+     
+        <div class="row m-0 p-0">
+            <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه پرداختی برای سفارت</div>
+
+            <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+              <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+                <div class="m-0 bg-warning" style="width: {{percentage_ofpay}}%; border-raduis:5px;">{{percentage_ofpay}}</div>
+              </div>
+            </div>
+            <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{total_ofpay}}</div>
+        </div>
+
+        <div class="row m-0 p-0">
+            <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه باقیات مشتری</div>
+
+            <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+              <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+                <div class="m-0 bg-warning" style="width: {{percentage_cupay}}%; border-raduis:5px;">{{percentage_cupay}}</div>
+              </div>
+            </div>
+            <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{total_cupay}}</div>
+        </div>
+        <div class="row m-0 p-0">
+          <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه پرداختی های مشتری</div>
+
+          <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+            <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+              <div class="m-0 bg-warning" style="width: {{percentage_cupay_pay}}%; border-raduis:5px;">{{percentage_cupay_pay}}</div>
+            </div>
+          </div>
+          <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{total_cupay_pay}}</div>
+      </div>
+        
+        <div class="row m-0 p-0">
+            <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه مفاد تا به حال</div>
+
+            <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+              <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+                <div class="m-0 {{mafad_min}}" style="width: {{percentage_mafad}}%; border-raduis:5px;">{{percentage_mafad}}%</div>
+              </div>
+            </div>
+            <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{mafad}}</div>
+        </div>
+
+     
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

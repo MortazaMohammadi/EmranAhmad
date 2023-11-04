@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/Bootstrap/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="/static/CSS/style.css">
+    <link rel="stylesheet" href="/static/fontawesome/css/all.min.css">
+    <title>راجستر کارمند</title>
+</head>
+
+<body>
+    
+    <div class="shadow-lg border border-1 border-info  p-5 m-2 bg-secondary">
+        <div class="text-center">
+
+            <div class="detial">
+                <div class="title_bar fw-bold fs-2 sub-bg text-white">
+                    راجستر کاربر
+                </div>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="reg" class="row m-0 shadow mt-5 text-start p-2 bg-white-1">
+                        <div class="col-lg-4 col-md-4 col-12">
+
+                            <div class="mt-2">
+                                <img id="imagePreview-2" src="{{myuser.admin.profile_image.url}}"
+                                    style="height: 200px; width: 200px; border-radius:50%;" alt="profile image">
+
+                            </div>
+                            <div class="text-center" style="width: 200px;">
+                                <label for="file-input-2" class="custom-button w-100 p-2 dark-bg nav-link fw-bold">
+                                    <i class="fa-solid fa-image light-blue-cl me-2 text-danger"
+                                        aria-hidden="true"></i>اضافه
+                                    تصویر
+                                </label>
+                                <input type="file" id="file-input-2" name= 'profile_img' class="d-none" accept="image/*"
+                                    onchange="previewImage(event,'imagePreview-2')" class="form-control mt-2" >
+                            </div>
+
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-12">
+                            <div class="row m-0">
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-user-circle text-danger px-2"
+                                            aria-hidden="true"></i>
+                                        نام</p>
+                                    <input type="text" name="name_txt" value="{{myuser.admin.first_name}}" class="form-control" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-user text-danger px-2"
+                                            aria-hidden="true"></i>
+                                        تخلص</p>
+                                    <input type="text" name="lname_txt" value = "{{myuser.admin.last_name}}" class="form-control" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-location-dot text-danger px-2"
+                                            aria-hidden="true"></i>
+                                        آدرس</p>
+                                    <input type="text" name="address_txt" value="{{myuser.address}}" class="form-control" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-envelope text-danger px-2"
+                                            aria-hidden="true"></i>
+                                        ایمیل</p>
+                                    <input type="text" name="email_txt" value="{{myuser.admin.email}}" class="form-control" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-user text-danger px-2"
+                                            aria-hidden="true"></i>
+                                        نام کاربری</p>
+                                    <input type="text" name="username_txt" value="{{myuser.admin.username}}"  class="form-control" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-phone text-danger px-2"
+                                            aria-hidden="true"></i>
+                                        شماره تماس</p>
+                                    <input type="text" name="phone_txt" value="{{myuser.phone}}"  class="form-control" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-lock text-danger px-2"
+                                            aria-hidden="true"></i>
+                                         پسورد فعلی</p>
+                                    <input type="password" name="password0_txt" class="form-control" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-lock text-danger px-2"
+                                            aria-hidden="true"></i>
+                                        پسورد</p>
+                                    <input type="password" name="password1_txt" class="form-control" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 p-2 fs-5">
+                                    <p class="text-dark m-1"><i class="fa fa-lock-open text-danger px-2"
+                                            aria-hidden="true"></i>
+                                        تایید پسورد</p>
+                                    <input type="password" name="password2_txt" class="form-control" required>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row m-0 d-flex justify-content-end">
+
+                                        <div class="col-lg-6 col-md-6 col-12 p-2 ">
+                                            <button class="btn btn-light sub-bg w-100">ذخیره</button>
+                                        </div>
+                                        <span class="fs-5 text-danger">
+                               
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+
+</html>

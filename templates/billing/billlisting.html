@@ -1,0 +1,176 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5">
+    <div class="text-center">
+        <div class="list sub-bg" id="list">
+            <div class="title_bar fw-bold fs-2 mt-5 text-light text-center">
+                لیست بل ها ثبت شده
+            </div>
+            <div class="search_filter main-bg p-4">
+              <form action="" name="listSearchform" method="post">
+                {% csrf_token %}
+                <div class="row m-0">
+      
+                  <div class="col-lg-3 col-md-3 col-12">
+                    <select class="form-select" name="Obilltype_txt"  id="emp" aria-label="Default select example">
+                      <option value="0">همه انواع بل</option>
+                      {% for i in Obilltype %}
+                      <option value="{{i.id}}">{{i.title}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>    
+                  <div class="col-lg-3 col-md-3 col-12">
+                    <select class="form-select" id="emailBy" name="money_txt" aria-label="Default select example">
+                      <option value="0">همه انواع پول</option>
+                      {% for item in money %}
+                          <option value="{{item.id}}">{{item.money_type}} </option>
+                      {% endfor %}
+                  </select>
+                  </div>  
+                  <div class="col-lg-3 col-md-3 col-12">
+                    <button type="submit" class="btn btn-info sub-bg text-light w-100"><i class="fa fa-search px-2" aria-hidden="true"></i>
+                      جستجو</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+      
+              <table class="table table-light fw-bold">
+                <thead >
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col"> نام</th>
+                    <th scope="col"> عنوان</th>
+                    <th scope="col">قیمت</th>
+                    <th scope="col">مقدار پرداخت</th>
+                    <th scope="col">مقدار باقی</th>
+                    <th scope="col">پول</th>
+                    <th scope="col">پرنت </th>
+                    <th scope="col">ویرایش </th>
+                    <th scope="col">حذف</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for items in records%}
+                 <tr>
+                    <th scope="row">{{ items.zero }}</th>
+                    <td>{{ items.one }}</td>
+                    <td>{{ items.two }}</td>
+                    <td scope="col">{{items.three}}</td>
+                    <td scope="col">{{items.four}}</td>
+                    <td scope="col">{{items.five}}</td>                        
+                    <td scope="col">{{items.money}}</td>
+                    <td><a href="billprint/{{items.zero}}" onclick="printPdf('billprint/{{items.zero}}'); return false;" class="btn btn-info w-100">یرنت</a></td>
+                    <td><a href="updateBill/{{items.zero}}" class="btn btn-primary w-100">ویرایش</a></td>
+
+                    <td> <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal"
+                        data-bs-target="#confirmationModal-{{ items.zero }}">
+                        حذف
+                    </button>
+                    </td>
+                  </tr> 
+                   <!-- Confirmation Modal -->
+                   <div class="modal fade" id="confirmationModal-{{ items.zero }}" tabindex="-1"
+                   aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                   <div class="modal-dialog">
+                       <div class="modal-content">
+                           <div class="modal-header">
+                               <h5 class="modal-title" id="confirmationModalLabel">تأیید حذف</h5>
+                               <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                   aria-label="بستن"></button>
+                           </div>
+                           <div class="modal-body">
+                               آیا مطمئن هستید که میخواهید این ورودی را حذف کنید؟
+                           </div>
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary"
+                                   data-bs-dismiss="modal">انصراف</button>
+                               <a href="deleteBill/{{items.zero}}" class="btn btn-danger">تأیید حذف</a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <!-- End of Confirmation Modal -->  
+                 {% endfor %}
+                </tbody>
+                
+              </table>
+        </div>
+        <div class="detial mt-5">
+            <div class="title_bar fw-bold fs-2 sub-bg text-white text-center">
+              آمار مالی بل های ثبت نام ها
+            </div>
+           
+            <div class="search_filter p-4" style="background-color: aquamarine;">
+                <div class="row m-0">
+                 
+                  <div class="col-9 mt-2">
+                    <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>فیصدی
+                      کلی</p>
+                  </div>
+                  <div class="col-3 mt-2">
+                    <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>مجموعه
+                      کلی</p>
+                    </div>
+                  <div class="col-9 mt-2">
+                    <div class=' bg-light  mt-2 text-center' style="width: 100%; border-radius:10px">
+                      <div class=' bg-warning py-1 mt-2 text-center' style="width: {{totalpriceper}}%; border-radius:10px">{{totalpriceper}}%</div>
+                    </div>
+                  </div>
+                  <div class="col-3 mt-2">
+                    <div class='text-dark py-1 mt-2 text-center border border-warning' style="width: 100%; border-radius:10px">{{totalprice}}</div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="row m-0 bg-light mt-3 ">
+              <div class="col-3 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">عنوان</div>
+              <div class="col-7 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">فیصدی</div>
+              <div class="col-2 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">مقدار</div>
+           
+              <div class="row m-0 p-0">
+                  <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه پرداختی مشتری</div>
+      
+                  <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+                    <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+                      <div class="m-0 bg-warning" style="width: {{totalpayedper}}%; border-raduis:5px;">{{totalpayedper}}</div>
+                    </div>
+                  </div>
+                  <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{totalpayed}}</div>
+              </div>
+      
+              <div class="row m-0 p-0">
+                  <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه باقیات مشتری</div>
+      
+                  <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+                    <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+                      <div class="m-0 bg-warning" style="width: {{totalremainper}}%; border-raduis:5px;">{{totalremainper}}</div>
+                    </div>
+                  </div>
+                  <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{totalremain}}</div>
+              </div>
+              
+              
+              <div class="row m-0 p-0">
+                  <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">مجموعه مفاد تا به حال</div>
+      
+                  <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+                    <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+                      <div class="m-0 {{mafadcolor}}" style="width: {{totalmafadper}}%; border-raduis:5px;">{{totalmafadper}}%</div>
+                    </div>
+                  </div>
+                  <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{totalmafad}}</div>
+              </div>
+      
+           
+            
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+{% endblock content %}

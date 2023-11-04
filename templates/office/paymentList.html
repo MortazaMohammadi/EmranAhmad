@@ -1,0 +1,103 @@
+
+{% extends 'shared/_MainLayout.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="body p-5 mt-3">
+  <div class="text-center">
+    <div class="detial">
+      <div class="title_bar fw-bold fs-2 sub-bg text-white">
+          لیست مصارف{{ one }}
+      </div>
+      <div class="search_filter main-bg p-4">
+        <form action="" name="listSearchform" method="get">
+          {% csrf_token %}
+          <div class="row m-0">
+
+            <div class="col-lg-3 col-md-3 col-12">
+              <select class="form-select" name="ptype_txt"  id="emp" aria-label="Default select example">
+                <option value="0">همه</option>
+                {% for i in paytype %}
+                <option value="{{i.id}}">{{i.title}}</option>
+                {% endfor %}
+              </select>
+            </div>  
+            <div class="col-lg-3 col-md-3 col-12">
+              <button type="submit" class="btn btn-info sub-bg text-light w-100"><i class="fa fa-search px-2" aria-hidden="true"></i>
+                جستجو</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="table_view">
+        <table class="table table-light ">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">مقدار پول</th>
+              <th scope="col">نوعیت پول</th>
+              <th scope="col">نوعیت مصارف</th>
+              <th scope="col">تاریخ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for items in records%}
+            <tr>
+               <th scope="row">{{ items.id }}</th>
+               <td>{{ items.amount }}</td>
+               <td>{{ items.money }}</td>
+               <td>{{ items.payment_type }}</td>
+               <td> {{ items.date }} </td>
+             </tr>   
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="detial mt-5">
+      <div class="title_bar fw-bold fs-2 sub-bg text-white">
+        آمار مصارف
+      </div>
+     
+      <div class="search_filter p-4" style="background-color: aquamarine;">
+          <div class="row m-0">
+           
+            <div class="col-9 mt-2">
+              <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>فیصدی
+                مصارف</p>
+            </div>
+            <div class="col-3 mt-2">
+              <p class="text-dark m-1 fw-bold"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>مجموعه
+                مصارف</p>
+              </div>
+            <div class="col-9 mt-2">
+              <div class=' bg-light  mt-2 text-center' style="width: 100%; border-radius:10px">
+                <div class=' bg-warning py-1 mt-2 text-center' style="width: 100%; border-radius:10px">100%</div>
+              </div>
+            </div>
+            <div class="col-3 mt-2">
+              <div class='text-dark py-1 mt-2 text-center border border-warning' style="width: 100%; border-radius:10px">{{total_amount}} افغانی</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row m-0 bg-light mt-3 ">
+        <div class="col-3 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">نوعیت مصارف</div>
+        <div class="col-7 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">فیصدی مصارف</div>
+        <div class="col-2 sub-bg text-light p-2 fw-bold" style="border: 1px solid grey;">مجموعه مصارف</div>
+      {% for item in eachptype %}
+      <div class="col-3 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{ item.0 }}</div>
+      <div class="col-7 text-dark p-2 fw-bold" style="border: 1px solid grey;">
+        <div class="m-0 bg-secondary" style="width: 100%; border-radius:5px;">
+          <div class="m-0 bg-danger" style="width: {{item.2}}%; border-raduis:5px;">{{item.2}}</div>
+        </div>
+      </div>
+      <div class="col-2 text-dark p-2 fw-bold" style="border: 1px solid grey;">{{item.1}}</div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

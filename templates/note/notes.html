@@ -1,0 +1,106 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="body p-5 mt-3">
+    <div class="text-center">
+
+        <div class="detial">
+            <div class="title_bar fw-bold fs-2 sub-bg text-white">
+                یاداشت ها 
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row m-0 text-start">
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-user text-danger px-2" aria-hidden="true"></i> نام</p>
+                        <input type="text" class="form-control" name="name_txt" required>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-pen text-danger px-2" aria-hidden="true"></i> موضوع</p>
+                        <input type="text" class="form-control" name="whatfor_txt" required>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>نوعیت </p>
+                        <select class="form-select" name="type_txt" aria-label="Default select example">
+                            <option class="" value="پرداخت">پرداخت</option>
+                            <option class="" value="دریافت">دریافت</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i> مقدار پول</p>
+                        <input type="number" class="form-control" name="amount_txt" required>
+                    </div>
+                    
+                   
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="m-4"></p>
+                        <button type="submit" class="btn btn-info mt-3 w-100 fw-bold" >ذخیره</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="list sub-bg">
+            <div class="title_bar fw-bold fs-2 mt-5 text-light">
+                لیست یاداشت ها 
+            </div>
+            <div class="search_filter main-bg p-4">
+                <form action="" name="listSearchform" method="get">
+                  {% csrf_token %}
+                  <div class="row m-0">
+                    
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <input type="text" class="form-control" placeholder="نام، موضوع یا مقدار" name="any_txt" >
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-12">
+                      <select class="form-select" id="emailBy" name="type_txt" aria-label="Default select example">
+                        <option value="همه">همه</option>
+                        <option value="پرداخت">پرداخت</option>
+                        <option value="دریافت">دریافت </option>
+                        
+                      </select>
+        
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-3 col-12">
+                      <button type="submit" class="btn btn-info sub-bg text-light w-100"><i class="fa fa-search px-2"
+                          aria-hidden="true"></i>
+                        جستجو</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <table class="table table-light">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">نام</th>
+                    <th scope="col">موضوع</th>
+                    <th scope="col">نوعیت</th>
+                    <th scope="col">مقدار</th>
+                    <th scope="col">تاریخ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for items in records%}
+                 <tr>
+                    <th scope="row">{{ items.id }}</th>
+                    <td>{{ items.name }}</td>
+                    <td>{{ items.whatfor }}</td>
+                    <td>{{ items.type }}</td>
+                    <td> {{ items.amount }} ({{items.money.money_type}}) </td>
+                    <td> {{ items.date }} </td>
+
+                </tr>   
+
+                 {% endfor %}
+                </tbody>
+              </table>
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% load static %}
+<div class="container">
+    <div class="top fixed-top p-2 main-bg text-white">
+        <div class="menu-btn">
+            <button class="btn" onclick="menubtn()"><i class="fa fa-list text-white" aria-hidden="true"
+                    ></i></button>
+        </div>
+        <div class="text-center fs-3">
+            <span class="text-light fw-bold">Excellent</span>
+        </div>
+        <div class="logout" style="position: absolute; left:100px; top:15%">
+            <button id="openModalBtn" class="btn" data-bs-toggle="modal" data-bs-target="#updateModal">
+                <i class="fa fa-dollar fs-4 text-info" aria-hidden="true"></i>
+              </button>
+
+            <!-- Include the shared modal template -->
+            
+        </div>
+        <div class="logout">
+            {% if user.profile_image %}
+            <a class="" href="/employeeUpdate/{{user.id}}">
+                <img src="{{ user.profile_image.url }}" style="width: 35px; height:35px; border-radius: 50%;" alt="">
+            </a>
+            {%endif%}
+            <button class="btn"><a href="/logout"><i class="fa fa-power-off text-white" aria-hidden="true"></i></a></button>
+        </div>
+    </div>
+</div>
+<div class="menubar mt-5 pt-3 ">
+    <ul class="navbar-nav menu fs-5 fw-bold main-bg">
+        {% if user.user_type == 'Employee' %}
+        <li class="nav-item p-0 ps-2 {{cusregister}}"><a href="/customerRegister" class="nav-link"><i class="fa fa-user pe-3 fs-6" aria-hidden="true"></i>راجستر مشتری</a></li>
+        <li class="nav-item p-0 ps-2 {{visaregister}}"><a href="/visaRegister" class="nav-link"><i class="fa fa-id-card pe-3 fs-6" aria-hidden="true"></i> راجستر ویزا</a></li>
+        <li class="nav-item p-0 ps-2 {{visaList}}"><a href="/visaList" class="nav-link"><i class="fa fa-list pe-3 fs-6" aria-hidden="true"></i> لیست ویزا</a></li>
+        <li class="nav-item p-0 ps-2 {{visastatistic}}"><a href="/visaStatistic" class="nav-link"><i class="fa-brands fa-drupal pe-3 fs-6" aria-hidden="true"></i> آمار مالی ویزا</a></li>
+        {% elif user.user_type == 'Manager' %}
+        <li class="nav-item p-0 ps-2 {{bill}}"><a href="/bill" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i> بل </a></li>
+        <li class="nav-item p-0 ps-2 {{billlisting}}"><a href="/billListing" class="nav-link"><i class="fa fa-list pe-3" aria-hidden="true"></i> لیست بل ها ثبت شده</a></li>
+        <li class="nav-item p-0 ps-2 {{addpay}}"><a href="/addPayment" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i>مصارف دفتر</a></li>
+        <li class="nav-item p-0 ps-2 {{listpay}}"><a href="/paymentList" class="nav-link"><i class="fa fa-list pe-3 fs-6 " aria-hidden="true"></i> لیست مصارف دفتر</a></li>
+        {% else %}
+        <li class="nav-item p-0 ps-2 {{bill}}"><a href="/bill" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i>بل </a></li>
+        <li class="nav-item p-0 ps-2 {{billlisting}}"><a href="/billListing" class="nav-link"><i class="fa fa-list pe-3" aria-hidden="true"></i> لیست بل ها ثبت شده</a></li>
+        <li class="nav-item p-0 ps-2 {{addpay}}"><a href="/addPayment" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i>مصارف دفتر</a></li>
+        <li class="nav-item p-0 ps-2 {{listpay}}"><a href="/paymentList" class="nav-link"><i class="fa fa-list pe-3 fs-6 " aria-hidden="true"></i> لیست مصارف دفتر</a></li>
+        <li class="nav-item p-0 ps-2 {{cusregister}}"><a href="/billCustomer" class="nav-link"><i class="fa fa-user pe-3 fs-6" aria-hidden="true"></i>راجستر مشتری</a></li>
+        <li class="nav-item p-0 ps-2 {{visaregister}}"><a href="/billVisa" class="nav-link"><i class="fa fa-id-card pe-3 fs-6" aria-hidden="true"></i> راجستر ویزا</a></li>
+        <li class="nav-item p-0 ps-2 {{visaList}}"><a href="/visaList" class="nav-link"><i class="fa fa-list pe-3 fs-6" aria-hidden="true"></i> لیست ویزا</a></li>
+        <li class="nav-item p-0 ps-2 {{visastatistic}}"><a href="/visaStatistic" class="nav-link"><i class="fa-brands fa-drupal pe-3 fs-6" aria-hidden="true"></i> آمار مالی ویزا</a></li>
+        <li class="nav-item p-0 ps-2 {{totalstatisticcolor}}"><a href="/totalstatistics" class="nav-link"><i class="fa-brands fa-drupal pe-3 fs-6" aria-hidden="true"></i> مجموعه آمار مالی </a></li>
+        <li class="nav-item p-0 ps-2 {{notes}}"><a href="/notes" class="nav-link"><i class="fa-brands fa-dribbble pe-3 fs-6" aria-hidden="true"></i> یاداشت ها</a></li>
+        <li class="nav-item p-0 ps-2 {{registration}}"><a href="/employeeRegister" class="nav-link"><i class="fa fa-users pe-3 fs-6" aria-hidden="true"></i> راجستر کارمند</a></li>
+        {% endif %}
+    </ul>
+</div>
+totalstatisticcolor

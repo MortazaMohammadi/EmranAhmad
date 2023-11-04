@@ -1,0 +1,70 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5 mt-3">
+    <div class="text-center">
+
+        <div class="detial">
+            <div class="title_bar fw-bold fs-2 sub-bg text-white">
+                مصارف 
+            </div>
+            <form action="#" method="post">
+                {% csrf_token %}
+                <div class="row m-0 text-start">
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i> مقدار پول</p>
+                        <input type="number" class="form-control" name="amount_txt" required>
+                    </div>
+                  
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>نوعیت مصرف</p>
+                        <select class="form-select" aria-label="Default select example" name="ptype_txt">
+                            {% for item in ptype %}
+                            <option class="" value="{{ item.id }}">{{ item.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-calendar text-danger px-2" aria-hidden="true"></i> تاریخ</p>
+                        <input type="date" class="form-control" name="date_txt" required>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="m-4"></p>
+                        <button type="submit" class="btn btn-info mt-3 w-100 fw-bold" >ذخیره</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="list sub-bg">
+            <div class="title_bar fw-bold fs-2 mt-5 text-light">
+                لیست مصارف 
+            </div>
+              <table class="table table-light">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">مقدار پول</th>
+                    <th scope="col">نوعیت پول</th>
+                    <th scope="col">نوعیت مصارف</th>
+                    <th scope="col">تاریخ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for items in list%}
+                 <tr>
+                    <th scope="row">{{ items.id }}</th>
+                    <td>{{ items.amount }}</td>
+                    <td>{{ items.money }}</td>
+                    <td>{{ items.payment_type }}</td>
+                    <td> {{ items.date }} </td>
+                  </tr>   
+
+                 {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

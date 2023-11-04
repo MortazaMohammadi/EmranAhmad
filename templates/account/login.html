@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% include 'shared/_HeaderReferences.html' %}
+    {% block header_ref %}{% endblock %}
+</head>
+<body>
+<div class="py-5 p-md-5 p-lg-5 d-flex justify-content-center login-container">
+    <div class="login p-2 p-md-5 p-lg-5 py-5 mt-5 text-center" >
+        <img src="/static/img/logo.jpg" class="logo mt-3 mb-3" alt="">
+        <div class="row m-0">
+            <div class="col-12">
+                <h3 class="text-white mt-3 fw-bold">شرکت سیاحتی و توریستی اکسلنت</h3>
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+            <div class="col-4 pt-3 fw-bold text-white"><i class="fa fa-user  px-2 text-warning" aria-hidden="true"></i> نام کاربری</div>
+            <div class="col-12 py-1 px-3"><input type="text" name="user_name" class="form-control" required></div>
+            <div class="col-4 pt-3 fw-bold text-white"><i class="fa fa-lock  px-2 text-warning" aria-hidden="true"></i>رمز عبور</div>
+            <div class="col-12 py-1 px-3"><input type="password" name="password" class="form-control" required></div>
+            
+            <div class="col-12 p-3">
+                <button type="submit" class="btn btn-warning w-50 fw-bold">ورود</button>
+            </div>
+            <span class="py-2 text-danger">
+                {{aut}}
+            </span>
+            
+        </form>
+        </div>
+    </div>
+</div> 
+
+{% include 'shared/_FooterReferences.html' %}
+{% block footer_ref %}{% endblock %}
+</body>
+</html>
