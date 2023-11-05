@@ -244,3 +244,197 @@ def employeeUpdate(request,user_id):
             return redirect('/bill')
     context['page'] = 'آپدیت کارمند'
     return render(request, 'account/employee_update.html',context)
+
+def addpip(request):
+    context={}
+    if request.method == 'POST':
+        name = request.POST.get('name_txt')
+        piptype = request.POST.get('piptype_txt')
+        inch = request.POST.get('inch_txt')
+        wieght = request.POST.get('wieght_txt')
+        price = request.POST.get('price_txt')
+        pip = mod.Pip(
+            name = name,
+            piptype = mod.Pips_type.objects.get(id = piptype),
+            inch = inch,
+            wieght = wieght,
+            price = price
+        )
+        pip.save()
+        return redirect('/addpip')
+    context['piptypes'] = mod.Pips_type.objects.all()
+    context['pipslisting'] = mod.Pip.objects.all()
+    context['page'] = 'اضافه محصول'
+    context['addpip'] = 'sub-bg text-warning'
+    return render(request,'/pip/addpip.html',context)
+
+def updatepip(request,pip_id):
+    context={}
+    context['pip'] = mod.Pip.objects.get(id = pip_id)
+    if request.method == 'POST':
+        name = request.POST.get('name_txt')
+        piptype = request.POST.get('piptype_txt')
+        inch = request.POST.get('inch_txt')
+        wieght = request.POST.get('wieght_txt')
+        price = request.POST.get('price_txt')
+        pip = mod.Pip.objects.get(id = pip_id)
+        pip.name = name
+        pip.piptype = mod.Pips_type.objects.get(id = piptype)
+        pip.inch = inch
+        pip.wieght = wieght
+        pip.price = price
+        pip.save()
+        return redirect('/addpip')
+    context['piptypes'] = mod.Pips_type.objects.all()
+    context['page'] = 'ویرایش محصول'
+    context['addpip'] = 'sub-bg text-warning'
+    return render(request,'/pip/updatepip.html',context)
+
+def deletpip(request,pip_id):
+    pip = mod.Pip.objects.get(id = pip_id)
+    pip.remove()
+    return redirect('/addpip')
+
+
+def buymatrial(request):
+    context={}
+    if request.method == 'POST':
+        piptype = request.POST.get('piptype_txt')
+        wieght = request.POST.get('wieght_txt')
+        price = request.POST.get('price_txt')
+        company = request.POST.get('compay_txt')
+        matrial = mod.BuyMatrial(
+            piptype = mod.Pips_type.objects.get(id = piptype),
+            wieght = wieght,
+            price = price,
+            company = company
+        )
+        matrial.save()
+    context['page'] = 'مواد اولیه'
+    context['buymatrial'] = 'sub-bg text-warning'
+    context['piptypes'] = mod.Pips_type.objects.all()
+    matriallisting = mod.BuyMatrial.objects.order_by('-id')
+    context['matriallisting'] = matriallisting
+    return render(request, '/matrials/buymatrial.html',context)
+
+def updatematrial(request,matrial_id):
+    context={}
+    context['matrial'] = mod.BuyMatrial.objects.get(id = matrial_id)
+    if request.method == 'POST':
+        piptype = request.POST.get('piptype_txt')
+        wieght = request.POST.get('wieght_txt')
+        price = request.POST.get('price_txt')
+        company = request.POST.get('compay_txt')
+        matrial = mod.BuyMatrial.objects.get(id = matrial_id)
+        matrial.piptype = mod.Pips_type.objects.get(id = piptype)
+        matrial.wieght = wieght
+        matrial.price = price
+        matrial.company = company
+        matrial.save()
+        return redirect('/buymatrial')
+    context['page'] = 'ویرایش مواد'
+    context['buymatrial'] = 'sub-bg text-warning'
+    context['piptypes'] = mod.Pips_type.objects.all()
+    return render(request,'matrial/updatematrial.html',context)
+
+def deletmatrial(request,matrial_id):
+    matrial = mod.BuyMatrial.objects.get(id = matrial_id)
+    matrial.remove()
+    redirect('/buymatrial')
+
+def addbill(request):
+    context = {}
+    if request.method =='POST':
+        customer = request.POST.get('customer_txt')
+        address = request.POST.get('address_txt')
+        bill = mod.Bill(
+            customer = customer,
+            address = address,
+        )
+        bill.save()
+        return redirect('/sellpip'+ str(bill.id))
+    try:
+        billlisting = mod.Bill.objects.filter(active = False).order_by('-id')
+    except:
+        pass
+    if billlisting == None:
+        context['none'] = 'هیج بِلی در جریان نیست'
+    else:
+        context['billlisting'] = billlisting
+    context['page'] = 'ایجاد بل'
+    context['addbill'] = 'sub-bg text-warning'
+    return render (request,'/sell/addbill.html',context)
+
+def updatebill(request,bill_id):
+     context = {}
+     context['bill'] = mod.Bill.objects.get(id = bill_id)
+     if request.method =='POST':
+        customer = request.POST.get('customer_txt')
+        address = request.POST.get('address_txt')
+        bill = mod.Bill.objects.get(id = bill_id)
+        bill.customer = customer
+        bill.address = address
+        bill.save()
+        return redirect('/addbill')
+     context['page'] = 'ویرایش بل'
+     context['addbill'] = 'sub-bg text-warning'
+     return render(request,'/sell/updatebill.html',context)
+
+
+def deletebill(requext, bill_id):
+    bill = mod.Bill.objects.get(id - bill_id)
+    bill.remove()
+    return redirect('/addbill')
+
+def billdone(request,bill_id):
+    bill = mod.Bill.objects.get(id = bill_id)
+    bill.done = True
+    bill.save()
+    return redirect('/addbill')
+ 
+def donebilllisting(request):
+    context = {}
+    if request.method == 'GET':
+       billsearch =  request.POST.get('search_txt')
+       if billsearch == None:
+           context['billlisting'] = mod.Bill.objects.filter(done = True)
+       else:
+           try:
+               context['billlisting'] = mod.Bill.objects.get(id = billsearch, done = True)
+           except:
+               context['none'] = 'هیج بِلی پیدا نشد'
+       return redirect('donebilllisting')
+    context['page'] = 'بل های ثبت شده'
+    context['donebilllisting'] = 'sub-bg text-warning'
+    return render(request,'sell/donebilllisting.html',context)
+def printbill(request,bill_id):
+    context = {}
+    context['page'] ='پرنت بل'
+    bill = mod.Bill.objects.get(id = bill_id)
+    context['sellpips'] = mod.SellPip.objects.filter(bill = bill)
+    context['total'] = mod.SellPip.objects.aggregate(total_amount=Sum('pip__price'))['total_amount']
+    return render(request,'/sell/printbill.html',context)
+
+# next plane :
+
+def sellpip(request,bill_id):
+    # show bill info
+    # list all records of bill
+    #  form to add sellpip
+
+    pass
+
+def updatesellpip(request,bill_id):
+    # form to update sellpip
+    pass
+
+def deletesellpip(request,sellpip_id):
+    # sellpip objects delete and redirect to bill_id
+    return redirect('/sell/pip'+ str(sellpip.bill_id))
+ 
+def statistic(request):
+    # total payment
+    # total matrials
+    # total Bill
+    # tottal bill -payment - matrials
+    pass

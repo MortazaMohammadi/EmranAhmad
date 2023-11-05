@@ -45,3 +45,32 @@ class Notes(models.Model):
     amount =models.FloatField()
     date = models.DateField(auto_now_add=True)
     
+class Pips_type(models.Model):
+    title = models.CharField(max_length=30)
+    country = models.CharField(max_length=20)
+
+class Pip(models.Model):
+    name = models.CharField(max_length=30)
+    piptype = models.ForeignKey(Pips_type, on_delete=models.CASCADE)
+    price = models.FloatField(default=0)
+    inch = models.CharField(max_length=10)
+    wieght = models.FloatField(default=0)
+
+class BuyMatrial(models.Model):
+    piptype = models.ForeignKey(Pips_type, on_delete=models.CASCADE)
+    wieght = models.FloatField(default=0)
+    price = models.FloatField(default=0)
+    company = models.CharField(max_length= 50)
+    date = models.DateField(auto_now=True)
+
+class Bill(models.Model):
+    customer = models.CharField(max_length=50)
+    address = models.CharField(max_length=50)
+    total = models.FloatField()
+    date = models.DateField(auto_now=True)
+    done = models.BooleanField(default=False)
+    
+class SellPip(models.Model):
+    pip = models.ForeignKey(Pip, on_delete=models.CASCADE)
+    bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=0)
