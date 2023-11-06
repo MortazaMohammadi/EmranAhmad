@@ -418,6 +418,29 @@ def printbill(request,bill_id):
 # next plane :
 
 def sellpip(request,bill_id):
+    bill = mod.Bill.objects.get(id = bill_id)
+    try:
+        sells = mod.SellPip.objects.filter(bill = bill)
+    except:
+        pass
+    context = {}
+    context['bill'] = bill
+    context['sells'] = sells
+    context['pips'] = mod.Pip.objects.all()
+    if request.mehtod == 'POST':
+        pip = request.POST.get('pip_txt')
+        amount = request.POST.get('amount_txt')
+        mypip = mod.Pip.objects.get(id = pip),
+        mysellpip = mod.SellPip(
+            pip = mypip,
+            bill = bill,
+            amount = amount,
+            totalprice = float(amount) * float(mypip.price)
+        )
+        mysellpip.save()
+        return redirect('/sellpip/'+ str(bill_id))
+    
+
     # show bill info
     # list all records of bill
     #  form to add sellpip

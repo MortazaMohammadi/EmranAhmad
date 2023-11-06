@@ -74,3 +74,4 @@ class SellPip(models.Model):
     pip = models.ForeignKey(Pip, on_delete=models.CASCADE)
     bill = models.ForeignKey(Bill, on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
+    totalprice = models.FloatField(default = 0)
