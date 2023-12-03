@@ -28,29 +28,19 @@
 </div>
 <div class="menubar mt-5 pt-3 ">
     <ul class="navbar-nav menu fs-5 fw-bold main-bg">
-        {% if user.user_type == 'Employee' %}
-        <li class="nav-item p-0 ps-2 {{cusregister}}"><a href="/customerRegister" class="nav-link"><i class="fa fa-user pe-3 fs-6" aria-hidden="true"></i>راجستر مشتری</a></li>
-        <li class="nav-item p-0 ps-2 {{visaregister}}"><a href="/visaRegister" class="nav-link"><i class="fa fa-id-card pe-3 fs-6" aria-hidden="true"></i> راجستر ویزا</a></li>
-        <li class="nav-item p-0 ps-2 {{visaList}}"><a href="/visaList" class="nav-link"><i class="fa fa-list pe-3 fs-6" aria-hidden="true"></i> لیست ویزا</a></li>
-        <li class="nav-item p-0 ps-2 {{visastatistic}}"><a href="/visaStatistic" class="nav-link"><i class="fa-brands fa-drupal pe-3 fs-6" aria-hidden="true"></i> آمار مالی ویزا</a></li>
-        {% elif user.user_type == 'Manager' %}
-        <li class="nav-item p-0 ps-2 {{bill}}"><a href="/bill" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i> بل </a></li>
-        <li class="nav-item p-0 ps-2 {{billlisting}}"><a href="/billListing" class="nav-link"><i class="fa fa-list pe-3" aria-hidden="true"></i> لیست بل ها ثبت شده</a></li>
+       
+        <li class="nav-item p-0 ps-2 {{addbill}}"><a href="/addbill" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i>بل </a></li>
+        <li class="nav-item p-0 ps-2 {{donebilllisting}}"><a href="/billListing" class="nav-link"><i class="fa fa-list pe-3" aria-hidden="true"></i> لیست بل ها ثبت شده</a></li>
         <li class="nav-item p-0 ps-2 {{addpay}}"><a href="/addPayment" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i>مصارف دفتر</a></li>
         <li class="nav-item p-0 ps-2 {{listpay}}"><a href="/paymentList" class="nav-link"><i class="fa fa-list pe-3 fs-6 " aria-hidden="true"></i> لیست مصارف دفتر</a></li>
-        {% else %}
-        <li class="nav-item p-0 ps-2 {{bill}}"><a href="/bill" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i>بل </a></li>
-        <li class="nav-item p-0 ps-2 {{billlisting}}"><a href="/billListing" class="nav-link"><i class="fa fa-list pe-3" aria-hidden="true"></i> لیست بل ها ثبت شده</a></li>
-        <li class="nav-item p-0 ps-2 {{addpay}}"><a href="/addPayment" class="nav-link"><i class="fa fa-pencil pe-3" aria-hidden="true"></i>مصارف دفتر</a></li>
-        <li class="nav-item p-0 ps-2 {{listpay}}"><a href="/paymentList" class="nav-link"><i class="fa fa-list pe-3 fs-6 " aria-hidden="true"></i> لیست مصارف دفتر</a></li>
-        <li class="nav-item p-0 ps-2 {{cusregister}}"><a href="/billCustomer" class="nav-link"><i class="fa fa-user pe-3 fs-6" aria-hidden="true"></i>راجستر مشتری</a></li>
-        <li class="nav-item p-0 ps-2 {{visaregister}}"><a href="/billVisa" class="nav-link"><i class="fa fa-id-card pe-3 fs-6" aria-hidden="true"></i> راجستر ویزا</a></li>
-        <li class="nav-item p-0 ps-2 {{visaList}}"><a href="/visaList" class="nav-link"><i class="fa fa-list pe-3 fs-6" aria-hidden="true"></i> لیست ویزا</a></li>
+        <li class="nav-item p-0 ps-2 {{buymatrial}}"><a href="/buymatrial" class="nav-link"><i class="fa fa-user pe-3 fs-6" aria-hidden="true"></i>راجستر مشتری</a></li>
+        <li class="nav-item p-0 ps-2 {{addpip}}"><a href="/addpip" class="nav-link"><i class="fa fa-id-card pe-3 fs-6" aria-hidden="true"></i> محصولات</a></li>
+        <li class="nav-item p-0 ps-2 {{vis}}"><a href="/visaList" class="nav-link"><i class="fa fa-list pe-3 fs-6" aria-hidden="true"></i> لیست ویزا</a></li>
         <li class="nav-item p-0 ps-2 {{visastatistic}}"><a href="/visaStatistic" class="nav-link"><i class="fa-brands fa-drupal pe-3 fs-6" aria-hidden="true"></i> آمار مالی ویزا</a></li>
         <li class="nav-item p-0 ps-2 {{totalstatisticcolor}}"><a href="/totalstatistics" class="nav-link"><i class="fa-brands fa-drupal pe-3 fs-6" aria-hidden="true"></i> مجموعه آمار مالی </a></li>
         <li class="nav-item p-0 ps-2 {{notes}}"><a href="/notes" class="nav-link"><i class="fa-brands fa-dribbble pe-3 fs-6" aria-hidden="true"></i> یاداشت ها</a></li>
         <li class="nav-item p-0 ps-2 {{registration}}"><a href="/employeeRegister" class="nav-link"><i class="fa fa-users pe-3 fs-6" aria-hidden="true"></i> راجستر کارمند</a></li>
-        {% endif %}
+       
     </ul>
 </div>
 totalstatisticcolor

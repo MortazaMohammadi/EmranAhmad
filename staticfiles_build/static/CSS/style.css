@@ -1,0 +1,86 @@
+*{
+  font-family: Arial, Helvetica, sans-serif;
+}
+.bg-white-1{
+  background-color: #ffffffcc;
+}
+.main-bg{
+  background-color: rgb(7, 77, 61);
+}.sub-bg{
+  background-color: rgb(11, 139, 110);
+}
+.login-container{
+  height: fit-content;
+  background-image: url('/static/img/banner/R.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  
+}
+.login{
+  width: 500px;
+  height: fit-content;
+  background-color: rgba(0, 0, 0, 0.8)
+}
+.logo{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.menu-btn{
+  position: absolute;
+  right: 10px;
+  top: 15%;
+}
+.logout{
+  position: absolute;
+  left: 10px;
+  top: 15%;
+}
+.menubar{
+  width: 180px; 
+  background-color: rgb(11, 139, 110);
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  position: fixed;
+}
+.menu .nav-item{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: solid 1px  rgba(255, 255, 255, 0.658);
+  padding-right: 15px;
+  color: white;
+}
+.body{
+  margin-right: 181px;
+  background-color: rgb(191, 248, 229);
+  height: fit-content;
+}
+.title_bar{
+  padding: 2%;
+  color: rgb(9, 59, 65);
+
+}
+#pdf-container {
+  max-width: 600px;
+  width: 100%;
+  height: 600px;
+  border: 1px solid black;
+  margin-top: 20px;
+}
+.table_view{
+max-height: 370px;
+overflow-y: scroll;
+}
+@media (max-width:700px){
+  .login{
+    width: 90%;
+  }
+  .body{
+    margin-right:0;
+  }
+  
+  .menubar{
+    display: none;
+  }
+}

@@ -266,7 +266,7 @@ def addpip(request):
     context['pipslisting'] = mod.Pip.objects.all()
     context['page'] = 'اضافه محصول'
     context['addpip'] = 'sub-bg text-warning'
-    return render(request,'/pip/addpip.html',context)
+    return render(request,'pip/addpip.html',context)
 
 def updatepip(request,pip_id):
     context={}
@@ -285,14 +285,15 @@ def updatepip(request,pip_id):
         pip.price = price
         pip.save()
         return redirect('/addpip')
+    context['pipslisting'] = mod.Pip.objects.all()
     context['piptypes'] = mod.Pips_type.objects.all()
     context['page'] = 'ویرایش محصول'
     context['addpip'] = 'sub-bg text-warning'
-    return render(request,'/pip/updatepip.html',context)
+    return render(request,'pip/updatepip.html',context)
 
-def deletpip(request,pip_id):
+def deletepip(request,pip_id):
     pip = mod.Pip.objects.get(id = pip_id)
-    pip.remove()
+    pip.delete()
     return redirect('/addpip')
 
 
@@ -337,7 +338,7 @@ def updatematrial(request,matrial_id):
     context['piptypes'] = mod.Pips_type.objects.all()
     return render(request,'matrial/updatematrial.html',context)
 
-def deletmatrial(request,matrial_id):
+def deletematrial(request,matrial_id):
     matrial = mod.BuyMatrial.objects.get(id = matrial_id)
     matrial.remove()
     redirect('/buymatrial')
@@ -441,7 +442,7 @@ def sellpip(request,bill_id):
         return redirect('/sellpip/'+ str(bill_id))
     context['page'] = 'بل'
     context['addbill'] = 'sub-bg text-warning'
-    return render(request, 'sell/sellpip.html',context)
+    return render(request, '/sell/sellpip.html',context)
 
 def updatesellpip(request,sellpip_id):
     context = {}
@@ -463,9 +464,9 @@ def deletesellpip(request,sellpip_id):
     sellpip.remove()
     return redirect('/sellpip'+ str(sellpip.bill.id))
  
-def statistic(request):
-    # total payment
-    # total matrials
-    # total Bill
-    # tottal bill -payment - matrials
-    pass
+# def statistic(request):
+#     # total payment
+#     # total matrials
+#     # total Bill
+#     # tottal bill -payment - matrials
+#     pass

@@ -1,0 +1,87 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="body p-5 mt-3">
+    <div class="text-center">
+
+        <div class="detial">
+            <div class="title_bar fw-bold fs-2 sub-bg text-white">
+                اضافه محصول  
+            </div>
+            <form action="#" method="post">
+                {% csrf_token %}
+                <div class="row m-0 text-start">
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-eye text-danger px-2" aria-hidden="true"></i> نام محصول</p>
+                        <input type="text" class="form-control" name="name_txt" required>
+                    </div>
+                  
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-edit text-danger px-2" aria-hidden="true"></i>نوعیت محصول</p>
+                        <select class="form-select" aria-label="Default select example" name="piptype_txt">
+                            {% for item in piptypes %}
+                            <option class="" value="{{ item.id }}">{{ item.title }} {{item.country}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-pencil text-danger px-2" aria-hidden="true"></i> سایز</p>
+                        <input type="text" class="form-control" name="inch_txt" required>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-area-chart text-danger px-2" aria-hidden="true"></i> وزن</p>
+                        <input type="number" class="form-control" name="wieght_txt" required>
+                    </div>
+
+                    
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-dollar text-danger px-2" aria-hidden="true"></i> قیمت</p>
+                        <input type="number" class="form-control" name="price_txt" required>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="m-4"></p>
+                        <button type="submit" class="btn btn-info mt-3 w-100 fw-bold" >ذخیره</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="list sub-bg">
+            <div class="title_bar fw-bold fs-2 mt-5 text-light">
+                لیست محصول 
+            </div>
+              <table class="table table-light">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">نام محصول</th>
+                    <th scope="col">نوعیت کحصول</th>
+                    <th scope="col">سایز</th>
+                    <th scope="col">وزن</th>
+                    <th scope="col">قیمت</th>
+                    <th scope="col">ویرایش</th>
+                    <th scope="col">حذف</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for items in pipslisting%}
+                 <tr>
+                    <th scope="row">{{ items.id }}</th>
+                    <td>{{ items.name }}</td>
+                    <td>{{ items.piptype.title }} {{items.piptype.country}}</td>
+                    <td>{{ items.inch}}</td>
+                    <td> {{ items.wieght }} kg</td>
+                    <td> {{ items.price }} </td>
+                    <td> <a href="/updatepip/{{items.id}}" class="btn btn-warning w-100">ویرایش</a></td>
+                    <td> <a href="/deletepip/{{items.id}}" class="btn btn-danger w-100">حذف</a> </td>
+                </tr>   
+
+                 {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
