@@ -2,6 +2,84 @@
 {% load static %}
 
 {% block content %}
+<div class="body p-5 mt-3">
+    <div class="text-center">
 
+        <div class="detial">
+            <div class="title_bar fw-bold fs-2 sub-bg text-white">
+                {{page}} 
+            </div>
+            <form action="#" method="post">
+                {% csrf_token %}
+                <div class="row m-0 text-start">
+                   
+                  
+                   
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-pencil text-danger px-2" aria-hidden="true"></i> نام مشتری</p>
+                        <input type="text" class="form-control" name="customer_txt" required>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="text-dark m-1"><i class="fa fa-area-chart text-danger px-2" aria-hidden="true"></i> آدرس</p>
+                        <input type="text" class="form-control" name="address_txt" required>
+                    </div>
 
+                    
+                
+
+                    <div class="col-lg-4 col-md-6 col-sm-12 p-2 fs-5">
+                        <p class="m-4"></p>
+                        <button type="submit" class="btn btn-info mt-3 w-100 fw-bold" >ذخیره</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="list sub-bg">
+            <div class="title_bar fw-bold fs-2 mt-5 text-light">
+                لیست بل های در جریان 
+            </div>
+              <table class="table table-light">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">نام مشتری</th>
+                    <th scope="col">آدرس</th>
+                    <th scope="col"> مجموعه پول</th>
+                    <th scope="col">تاریخ</th>
+                    <th scope="col">رسید</th>
+                    <th scope="col">ویرایش</th>
+                    <th scope="col">حذف</th>
+                     <th scope="col">رسید</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if billlisting == None%}
+                <h2>{{none}}</h2>
+                {% else %}
+                 {% for items in billlisting%}
+                 <tr>
+                    <th scope="row">{{ items.id }}</th>
+                    <td>{{ items.customer }}</td>
+                    <td>{{items.address}}</td>
+                    <td>{{ items.total}}</td>
+                    <td> {{ items.date }} </td>
+                    {% if items.done == False %}
+                    <td>در جریان</td>
+                    {% else %}
+                    <td> تایید </td>
+                    {% endif %}
+                    <td> <a href="/updatebill/{{items.id}}" class="btn btn-warning w-100">ویرایش</a></td>
+                    <td> <a href="/deletebill/{{items.id}}" class="btn btn-danger w-100">حذف</a> </td>
+                    <td> <a href="/billdone/{{items.id}}" class="btn btn-success w-100">رسید</a> </td>
+                </tr>   
+
+                 {% endfor %}
+                {% endif %}
+                
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

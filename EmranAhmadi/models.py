@@ -66,7 +66,7 @@ class BuyMatrial(models.Model):
 class Bill(models.Model):
     customer = models.CharField(max_length=50)
     address = models.CharField(max_length=50)
-    total = models.FloatField()
+    total = models.FloatField( null= True)
     date = models.DateField(auto_now=True)
     done = models.BooleanField(default=False)
     

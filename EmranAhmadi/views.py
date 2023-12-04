@@ -303,7 +303,7 @@ def buymatrial(request):
         piptype = request.POST.get('piptype_txt')
         wieght = request.POST.get('wieght_txt')
         price = request.POST.get('price_txt')
-        company = request.POST.get('compay_txt')
+        company = request.POST.get('company_txt')
         matrial = mod.BuyMatrial(
             piptype = mod.Pips_type.objects.get(id = piptype),
             wieght = wieght,
@@ -311,12 +311,12 @@ def buymatrial(request):
             company = company
         )
         matrial.save()
-    context['page'] = 'مواد اولیه'
+    context['page'] = 'مواد خام'
     context['buymatrial'] = 'sub-bg text-warning'
     context['piptypes'] = mod.Pips_type.objects.all()
     matriallisting = mod.BuyMatrial.objects.order_by('-id')
     context['matriallisting'] = matriallisting
-    return render(request, '/matrials/buymatrial.html',context)
+    return render(request, 'matrial/buymatrial.html',context)
 
 def updatematrial(request,matrial_id):
     context={}
@@ -335,13 +335,15 @@ def updatematrial(request,matrial_id):
         return redirect('/buymatrial')
     context['page'] = 'ویرایش مواد'
     context['buymatrial'] = 'sub-bg text-warning'
+    matriallisting = mod.BuyMatrial.objects.order_by('-id')
+    context['matriallisting'] = matriallisting
     context['piptypes'] = mod.Pips_type.objects.all()
     return render(request,'matrial/updatematrial.html',context)
 
 def deletematrial(request,matrial_id):
     matrial = mod.BuyMatrial.objects.get(id = matrial_id)
-    matrial.remove()
-    redirect('/buymatrial')
+    matrial.delete()
+    return redirect('/buymatrial')
 
 def addbill(request):
     context = {}
@@ -353,18 +355,18 @@ def addbill(request):
             address = address,
         )
         bill.save()
-        return redirect('/sellpip'+ str(bill.id))
+        return redirect('/sellpip/'+ str(bill.id))
     try:
-        billlisting = mod.Bill.objects.filter(active = False).order_by('-id')
+        billlisting = mod.Bill.objects.filter(done = False).order_by('-id')
     except:
-        pass
+        billlisting = None
     if billlisting == None:
         context['none'] = 'هیج بِلی در جریان نیست'
     else:
         context['billlisting'] = billlisting
     context['page'] = 'ایجاد بل'
     context['addbill'] = 'sub-bg text-warning'
-    return render (request,'/sell/addbill.html',context)
+    return render (request,'sell/addbill.html',context)
 
 def updatebill(request,bill_id):
      context = {}
@@ -377,14 +379,23 @@ def updatebill(request,bill_id):
         bill.address = address
         bill.save()
         return redirect('/addbill')
+     try:
+        billlisting = mod.Bill.objects.filter(done = False).order_by('-id')
+     except:
+        billlisting = None
+     if billlisting == None:
+        context['none'] = 'هیج بِلی در جریان نیست'
+     else:
+        context['billlisting'] = billlisting
+   
      context['page'] = 'ویرایش بل'
      context['addbill'] = 'sub-bg text-warning'
-     return render(request,'/sell/updatebill.html',context)
+     return render(request,'sell/updatebill.html',context)
 
 
 def deletebill(requext, bill_id):
-    bill = mod.Bill.objects.get(id - bill_id)
-    bill.remove()
+    bill = mod.Bill.objects.get(id = bill_id)
+    bill.delete()
     return redirect('/addbill')
 
 def billdone(request,bill_id):
@@ -428,21 +439,29 @@ def sellpip(request,bill_id):
     context['bill'] = bill
     context['sells'] = sells
     context['pips'] = mod.Pip.objects.all()
+    
+  
     if request.method == 'POST':
         pip = request.POST.get('pip_txt')
         amount = request.POST.get('amount_txt')
-        mypip = mod.Pip.objects.get(id = pip),
+        print(pip,amount) 
+        mypip = mod.Pip.objects.get(id = pip)
+        totalall = mod.Bill.objects.get(id = bill_id)
         mysellpip = mod.SellPip(
             pip = mypip,
             bill = bill,
             amount = amount,
-            totalprice = float(amount) * float(mypip.price)
+            totalprice = float(amount) * float(mypip.price if mypip.price != None else 0)
+            
         )
         mysellpip.save()
+        totalall.total = totalall.total + mysellpip.totalprice if totalall.total != None else mysellpip.totalprice
+        totalall.save()
+        print(totalall.total)
         return redirect('/sellpip/'+ str(bill_id))
     context['page'] = 'بل'
     context['addbill'] = 'sub-bg text-warning'
-    return render(request, '/sell/sellpip.html',context)
+    return render(request, 'sell/sellpip.html',context)
 
 def updatesellpip(request,sellpip_id):
     context = {}
