@@ -464,24 +464,40 @@ def sellpip(request,bill_id):
     return render(request, 'sell/sellpip.html',context)
 
 def updatesellpip(request,sellpip_id):
+    object = mod.SellPip.objects.get(id = sellpip_id)
+    sells = mod.SellPip.objects.filter(bill = object.bill.id)
     context = {}
+    context['object'] = object
+    context['sells'] = sells
+    context['pips'] = mod.Pip.objects.all()
     if request.method == 'POST':
         pip = request.POST.get('pip_txt')
         amount = request.POST.get('amount_txt')
-        mypip = mod.Pip.objects.get(id = pip),
-        mysellpip = mod.SellPip.objects.get(id = sellpip_id)
-        mysellpip.pip = mypip,
-        mysellpip.amount = amount,
-        mysellpip.totalprice = float(amount) * float(mypip.price)
-        mysellpip.save()
-        return redirect('/sellpip/'+ str(mysellpip.pip.id))
+        mypip = mod.Pip.objects.get(id = pip)
+        print(pip,amount) 
+        totalall = mod.Bill.objects.get(id = object.bill.id)
+        totalall.total = float(totalall.total) - float(object.totalprice) + float(amount) * float(object.pip.price)
+        totalprice = float(amount) * float(object.pip.price)
+        object.pip = mypip
+        object.amount = amount
+        object.totalprice = totalprice
+        object.save()
+        totalall.save()
+        print(totalall.total)
+        return redirect('/sellpip/'+ str(object.bill.id))
+    context['page'] = 'بل'
+    context['addbill'] = 'sub-bg text-warning'
     context['page'] = 'ویرایش مواد'
     context['addbill'] = 'sub-bg text-warning'
-    return render(request,'sell/updatesellpip.html')
+    context['pips'] = mod.Pip.objects.all()
+    return render(request,'sell/updatesellpip.html',context)
 def deletesellpip(request,sellpip_id):
-    sellpip = mod.SellPip.objects.get(id = sellpip)
-    sellpip.remove()
-    return redirect('/sellpip'+ str(sellpip.bill.id))
+    sellpip = mod.SellPip.objects.get(id = sellpip_id)
+    bill = mod.Bill.objects.get(id = sellpip.bill.id)
+    bill.total -= sellpip.totalprice
+    bill.save()
+    sellpip.delete()
+    return redirect('/sellpip/'+ str(sellpip.bill.id))
  
 # def statistic(request):
 #     # total payment

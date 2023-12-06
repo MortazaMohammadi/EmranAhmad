@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-3">
                     <p class="fs-5 text-white p-3 fw-bold">
-                        <i class="fa fa-dollar text-danger p-2"></i> {{bill.total}}
+                        <i class="fa fa-dollar text-danger p-2"></i> {{bill.total}} افغانی
                     </p>
                 </div>
                 <div class="col-3">
@@ -90,8 +90,8 @@
                     <td> {{ items.totalprice }} </td>
                     
                   
-                    <td> <a href="/updatebill/{{items.id}}" class="btn btn-warning w-100">ویرایش</a></td>
-                    <td> <a href="/deletebill/{{items.id}}" class="btn btn-danger w-100">حذف</a> </td>
+                    <td> <a href="/updatesellpip/{{items.id}}" class="btn btn-warning w-100">ویرایش</a></td>
+                    <td> <a href="/deletesellpip/{{items.id}}" class="btn btn-danger w-100">حذف</a> </td>
                 </tr>   
 
                  {% endfor %}
