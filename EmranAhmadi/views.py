@@ -183,19 +183,12 @@ def notes(request):
 # profile update
 def employeeUpdate(request,user_id):  
     context = {}
-    context['money'] = mod.Money.objects.all()
     customuser = mod.CustomUser.objects.get(id = user_id)
     myuser = None
     
-    try:
-        if mod.Boss.objects.get(admin = customuser):
-            myuser = mod.Boss.objects.get(admin = customuser)
-        elif mod.Employee.objects.get(admin = customuser):
-            myuser = mod.Employee.objects.get(admin = customuser)
-        else:
-            myuser = mod.Manager.objects.get(admin = customuser)
-    except:
-        pass
+    
+    myuser = mod.Employee.objects.get(admin = customuser)
+       
     context['myuser'] = myuser
     if request.method == 'POST':
         name = request.POST.get('name_txt')
